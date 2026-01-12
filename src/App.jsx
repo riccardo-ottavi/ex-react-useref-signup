@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 
 function App() {
 
-  const [name, setName] = useState("");
+  const nameRef = useRef();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [specialization, setSpecialization] = useState("");
-  const [experience, setExperience] = useState("");
+  const specializationRef = useRef();
+  const expRef = useRef()
   const [description, setDescription] = useState("")
 
   const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -16,6 +16,15 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault()
+    const nameInput = nameRef.current;
+    const name = nameInput.value
+
+    const specializationInput = specializationRef.current;
+    const specialization = specializationInput.value
+
+    const expInput = expRef.current;
+    const experience = expInput.value
+
     if (name.trim() === "" || username.trim() === "" || password.trim() === "" || experience === "" || description === "") {
       alert("Compila tutti i campi!")
       return
@@ -24,6 +33,7 @@ function App() {
       alert("scegli una specializzazione!")
       return
     }
+
     console.log(name)
     console.log(username)
     console.log(password)
@@ -39,9 +49,7 @@ function App() {
     const value = e.target.value;
 
     switch (e.target.name) {
-      case "name":
-        setName(value);
-        break;
+
 
       case "username":
         setUserName(value);
@@ -49,14 +57,6 @@ function App() {
 
       case "password":
         setPassword(value);
-        break;
-
-      case "specialization":
-        setSpecialization(value);
-        break;
-
-      case "experience":
-        setExperience(value);
         break;
 
       case "description":
@@ -69,41 +69,41 @@ function App() {
   }
 
   function isUsernameValid(username) {
-    if (username.length < 6){
+    if (username.length < 6) {
       return false
     }
-   
-    for (let i = 0; i < username.length; i++){
-      if (symbols.includes(username[i])){
+
+    for (let i = 0; i < username.length; i++) {
+      if (symbols.includes(username[i])) {
         return false
-      }else if(username[i] === " "){
+      } else if (username[i] === " ") {
         return false
-      } 
+      }
     }
     return true
   }
 
   function isPasswordValid(password) {
-  let hasLetter = false;
-  let hasNumber = false;
-  let hasSymbol = false;
+    let hasLetter = false;
+    let hasNumber = false;
+    let hasSymbol = false;
 
-  if (password.length < 8) return false;
+    if (password.length < 8) return false;
 
-  for (let i = 0; i < password.length; i++) {
-    if (/[a-zA-Z]/.test(password[i])) hasLetter = true;
-    else if (/[0-9]/.test(password[i])) hasNumber = true;
-    else hasSymbol = true;
+    for (let i = 0; i < password.length; i++) {
+      if (/[a-zA-Z]/.test(password[i])) hasLetter = true;
+      else if (/[0-9]/.test(password[i])) hasNumber = true;
+      else hasSymbol = true;
+    }
+
+    return hasLetter && hasNumber && hasSymbol;
   }
 
-  return hasLetter && hasNumber && hasSymbol;
-}
-
   function isDescriptionValid(description) {
-    if (description.length < 100 || description.length > 1000 ){
+    if (description.length < 100 || description.length > 1000) {
       return false
     }
-   
+
     return true
   }
 
@@ -116,7 +116,7 @@ function App() {
           <input
             type="text"
             name="name"
-            value={name}
+            ref={nameRef}
             onChange={handleChange}
           />
         </div>
@@ -151,7 +151,7 @@ function App() {
           <label>Specializzazione</label>
           <select
             name="specialization"
-            value={specialization}
+            ref={specializationRef}
             onChange={handleChange}
           >
             <option value="">Seleziona</option>
@@ -166,7 +166,7 @@ function App() {
           <input
             type="number"
             name="experience"
-            value={experience}
+            ref={expRef}
             onChange={handleChange}
             min="0"
           />
