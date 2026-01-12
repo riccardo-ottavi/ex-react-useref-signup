@@ -14,6 +14,14 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault()
+    if(name.trim() === "" || username.trim() === "" || password.trim() === "" || experience === "" || experience === ""){
+      alert("Compila tutti i campi!")
+      return
+    }
+    if(specialization === ""){
+      alert("scegli una specializzazione!")
+      return
+    }
     console.log(name)
     console.log(username)
     console.log(password)
