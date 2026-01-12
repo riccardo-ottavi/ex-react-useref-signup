@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
@@ -12,13 +10,17 @@ function App() {
   const [experience, setExperience] = useState("");
   const [description, setDescription] = useState("")
 
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()-_=+[]{}|;:\\,.<>?/`~";
+
   function handleSubmit(e) {
     e.preventDefault()
-    if(name.trim() === "" || username.trim() === "" || password.trim() === "" || experience === "" || experience === ""){
+    if (name.trim() === "" || username.trim() === "" || password.trim() === "" || experience === "" || description === "") {
       alert("Compila tutti i campi!")
       return
     }
-    if(specialization === ""){
+    if (specialization === "") {
       alert("scegli una specializzazione!")
       return
     }
@@ -66,6 +68,45 @@ function App() {
     }
   }
 
+  function isUsernameValid(username) {
+    if (username.length < 6){
+      return false
+    }
+   
+    for (let i = 0; i < username.length; i++){
+      if (symbols.includes(username[i])){
+        return false
+      }else if(username[i] === " "){
+        return false
+      } 
+    }
+    return true
+  }
+
+  function isPasswordValid(password) {
+  let hasLetter = false;
+  let hasNumber = false;
+  let hasSymbol = false;
+
+  if (password.length < 8) return false;
+
+  for (let i = 0; i < password.length; i++) {
+    if (/[a-zA-Z]/.test(password[i])) hasLetter = true;
+    else if (/[0-9]/.test(password[i])) hasNumber = true;
+    else hasSymbol = true;
+  }
+
+  return hasLetter && hasNumber && hasSymbol;
+}
+
+  function isDescriptionValid(description) {
+    if (description.length < 100 || description.length > 1000 ){
+      return false
+    }
+   
+    return true
+  }
+
   return (
     <>
       <h1>Form di registrazione</h1>
@@ -88,6 +129,9 @@ function App() {
             value={username}
             onChange={handleChange}
           />
+          <strong style={{ color: !isUsernameValid(username) ? 'red' : 'green' }}>
+            {!isUsernameValid(username) ? "Username non valido" : "Username valido"}
+          </strong>
         </div>
 
         <div>
@@ -98,6 +142,9 @@ function App() {
             value={password}
             onChange={handleChange}
           />
+          <strong style={{ color: !isPasswordValid(password) ? 'red' : 'green' }}>
+            {!isPasswordValid(password) ? "Password non valida" : "Password valida"}
+          </strong>
         </div>
 
         <div>
@@ -133,6 +180,9 @@ function App() {
             onChange={handleChange}
           />
         </div>
+        <strong style={{ color: !isDescriptionValid(description) ? 'red' : 'green' }}>
+          {!isDescriptionValid(description) ? "Descrizione non valida" : "Descrizione valida"}
+        </strong>
 
         <button type="submit">Invia</button>
 
