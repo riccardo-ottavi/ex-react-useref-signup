@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import './App.css'
 
 function App() {
@@ -68,44 +68,33 @@ function App() {
     }
   }
 
-  function isUsernameValid(username) {
-    if (username.length < 6) {
-      return false
-    }
+  const isUsernameValid = useMemo(() =>{
+    const validChars = [...username].every(char =>
+      letters.includes(char.toLowerCase()) ||
+      numbers.includes(char)
+    ) ;
+    
+    return validChars && username.trim().length >= 6
+    
+  },[username]);
 
-    for (let i = 0; i < username.length; i++) {
-      if (symbols.includes(username[i])) {
-        return false
-      } else if (username[i] === " ") {
-        return false
-      }
-    }
-    return true
-  }
+  const isPasswordValid = useMemo(()=>{
+    return (
+    password.trim().length >= 8 &&
+    password.split("").some(char => letters.includes(char)) &&
+    password.split("").some(char => numbers.includes(char)) &&
+    password.split("").some(char => symbols.includes(char)) 
+  )
+  },[password])
+   
 
-  function isPasswordValid(password) {
-    let hasLetter = false;
-    let hasNumber = false;
-    let hasSymbol = false;
-
-    if (password.length < 8) return false;
-
-    for (let i = 0; i < password.length; i++) {
-      if (/[a-zA-Z]/.test(password[i])) hasLetter = true;
-      else if (/[0-9]/.test(password[i])) hasNumber = true;
-      else hasSymbol = true;
-    }
-
-    return hasLetter && hasNumber && hasSymbol;
-  }
-
-  function isDescriptionValid(description) {
-    if (description.length < 100 || description.length > 1000) {
-      return false
-    }
-
-    return true
-  }
+  const isDescriptionValid = useMemo(() => {
+    return (
+      description.trim().length >= 100 &&
+      description.trim().length < 1000
+    );
+  },[description]) 
+   
 
   return (
     <>
@@ -132,8 +121,8 @@ function App() {
               value={username}
               onChange={handleChange}
             />
-            <strong style={{ color: !isUsernameValid(username) ? 'red' : 'green' }}>
-              {!isUsernameValid(username) ? "Username non valido" : "Username valido"}
+            <strong style={{ color: !isUsernameValid ? 'red' : 'green' }}>
+              {!isUsernameValid ? "Username non valido" : "Username valido"}
             </strong>
           </label>
         </div>
@@ -147,8 +136,8 @@ function App() {
               value={password}
               onChange={handleChange}
             />
-            <strong style={{ color: !isPasswordValid(password) ? 'red' : 'green' }}>
-              {!isPasswordValid(password) ? "Password non valida" : "Password valida"}
+            <strong style={{ color: !isPasswordValid ? 'red' : 'green' }}>
+              {!isPasswordValid ? "Password non valida" : "Password valida"}
             </strong>
           </label>
         </div>
@@ -193,8 +182,8 @@ function App() {
             />
           </label>
         </div>
-        <strong style={{ color: !isDescriptionValid(description) ? 'red' : 'green' }}>
-          {!isDescriptionValid(description) ? "Descrizione non valida" : "Descrizione valida"}
+        <strong style={{ color: !isDescriptionValid ? 'red' : 'green' }}>
+          {!isDescriptionValid ? "Descrizione non valida" : "Descrizione valida"}
         </strong>
 
         <button type="submit">Invia</button>
