@@ -112,73 +112,86 @@ function App() {
       <h1>Form di registrazione</h1>
       <form action="" onSubmit={handleSubmit}>
         <div>
-          <label>Nome completo</label>
-          <input
-            type="text"
-            name="name"
-            ref={nameRef}
-            onChange={handleChange}
-          />
+          <label>
+            Nome completo
+            <input
+              type="text"
+              name="name"
+              ref={nameRef}
+              onChange={handleChange}
+            />
+          </label>
         </div>
 
         <div>
-          <label>Username</label>
-          <input
-            type="text"
-            name="username"
-            value={username}
-            onChange={handleChange}
-          />
-          <strong style={{ color: !isUsernameValid(username) ? 'red' : 'green' }}>
-            {!isUsernameValid(username) ? "Username non valido" : "Username valido"}
-          </strong>
+          <label>
+            Username
+            <input
+              type="text"
+              name="username"
+              value={username}
+              onChange={handleChange}
+            />
+            <strong style={{ color: !isUsernameValid(username) ? 'red' : 'green' }}>
+              {!isUsernameValid(username) ? "Username non valido" : "Username valido"}
+            </strong>
+          </label>
         </div>
 
         <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-          />
-          <strong style={{ color: !isPasswordValid(password) ? 'red' : 'green' }}>
-            {!isPasswordValid(password) ? "Password non valida" : "Password valida"}
-          </strong>
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+            />
+            <strong style={{ color: !isPasswordValid(password) ? 'red' : 'green' }}>
+              {!isPasswordValid(password) ? "Password non valida" : "Password valida"}
+            </strong>
+          </label>
         </div>
 
         <div>
-          <label>Specializzazione</label>
-          <select
-            name="specialization"
-            ref={specializationRef}
-            onChange={handleChange}
-          >
-            <option value="">Seleziona</option>
-            <option value="Full Stack">Full Stack</option>
-            <option value="Frontend">Frontend</option>
-            <option value="Backend">Backend</option>
-          </select>
+          <label>
+            Specializzazione
+            <select
+              name="specialization"
+              ref={specializationRef}
+              onChange={handleChange}
+            >
+              <option value="">Seleziona</option>
+              <option value="Full Stack">Full Stack</option>
+              <option value="Frontend">Frontend</option>
+              <option value="Backend">Backend</option>
+            </select>
+          </label>
         </div>
 
         <div>
-          <label>Anni di esperienza</label>
-          <input
-            type="number"
-            name="experience"
-            ref={expRef}
-            onChange={handleChange}
-            min="0"
-          />
+          <label>
+            Anni di esperienza
+
+            <input
+              type="number"
+              name="experience"
+              ref={expRef}
+              onChange={handleChange}
+              min="0"
+            />
+          </label>
         </div>
 
         <div>
-          <label>Breve descrizione sullo sviluppatore</label>
-          <textarea
-            name="description"
-            value={description}
-            onChange={handleChange}
-          />
+          <label>
+            Breve descrizione sullo sviluppatore
+            <textarea
+              name="description"
+              value={description}
+              onChange={handleChange}
+            />
+          </label>
         </div>
         <strong style={{ color: !isDescriptionValid(description) ? 'red' : 'green' }}>
           {!isDescriptionValid(description) ? "Descrizione non valida" : "Descrizione valida"}
